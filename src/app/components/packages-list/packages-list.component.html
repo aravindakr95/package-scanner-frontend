@@ -1,0 +1,57 @@
+<button type="button" class="btn btn-outline-primary btn-sm" (click)="openAddNewModal()"><span>
+    <i class="fa fa-save"></i>
+</span> Add CSV</button> &nbsp;
+<button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()"><span>
+    <i class="fa fa-trash"></i>
+</span> Empty Package List</button>
+<br> &nbsp;
+<ng-data-table
+        [id]="'packages_list'"
+        [title]="'Packages List'"
+        [selectTrackBy]="'_id'"
+        [showHeader]="true"
+        [showColumnSelector]="true"
+        [minContentWidth]="1280"
+        [contentHeight]="300"
+        [limit]="10"
+        [pageable]="true"
+        [items]="packagesList"
+        (init)="onDataTableInit($event)">
+    <ng-data-table-column
+            [title]="'Time'"
+            [width]="50">
+        <ng-template #ngDataTableCell let-row="row">
+            <td (click)="$event.stopPropagation()">
+                <p>{{getTime(row.item.timestamp)}}</p>
+            </td>
+        </ng-template>
+    </ng-data-table-column>
+    <ng-data-table-column
+            [field]="'barcode'"
+            [title]="'Barcode'"
+            [filterable]="true"
+            [width]="50">
+    </ng-data-table-column>
+    <ng-data-table-column
+            [field]="'lastScan'"
+            [title]="'Last Scan'"
+            [filterable]="true"
+            [width]="50">
+    </ng-data-table-column>
+    <ng-data-table-column
+            [field]="'seqNo'"
+            [title]="'Sequence No'"
+            [filterable]="true"
+            [width]="50">
+    </ng-data-table-column>
+    <ng-data-table-column
+            [field]="'nameAndAddress'"
+            [title]="'Name and Address'"
+            [filterable]="true"
+            [width]="80">
+    </ng-data-table-column>
+    <ng-template #ngDataTableNoRecords>
+        <h1 style="font-family: 'Helvetica Neue',sans-serif; color: #000000;">No packages has been detected</h1>
+    </ng-template>
+</ng-data-table>
+

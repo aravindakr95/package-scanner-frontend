@@ -1,0 +1,47 @@
+﻿<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" style="pointer-events: none;">Package Sorter</a>
+        </div>
+        <ul class="nav navbar-nav mr-auto">
+            <li>
+                <a class="nav-item nav-link" routerLink="/">Packages List</a>
+            </li>
+            <li>
+                <a class="nav-item nav-link selected" routerLink="/scanner">Scanner</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+            <li>
+                <a class="nav-item nav-link" style="pointer-events: none;">Greetings, {{currentUser.fullName}}</a>
+            </li>
+            <li>
+                <a class="nav-item nav-link" (click)="openLogoutModal()">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--</nav>-->
+
+<!-- main app container -->
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 offset-sm-2">
+                <alert></alert>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- credits -->
+<div class="text-center">
+    <p>
+        <a href="#" target="_top" style="font-size: 14px">Made with &hearts; Package Sorter</a>
+    </p>
+    <p>
+        <a href="#" target="_top" style="font-size: 14px">&copy; Aravinda Rathnayake. All rights reserved.</a>
+    </p>
+</div>

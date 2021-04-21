@@ -1,0 +1,23 @@
+<div *ngIf="packageForm">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Packages</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="onCancelClick()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="packageForm">
+            <div class="form-group">
+                <label for="csvFile" class="form-label">Select CSV File</label>
+                <input type="file" formControlName="csvFile" class="form-control-file" #csvFile>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success btn-sm" (click)="onSubmit(csvFile)" [disabled]="packageForm.invalid">
+            <i class="fa fa-save"></i> Add
+        </button>
+        <a class="btn btn-link btn-sm" (click)="onCancelClick()">Cancel</a>
+    </div>
+</div>
+
