@@ -39,3 +39,6 @@ typings
 
 # Generated files
 dist
+
+#Jet Brains
+.idea
