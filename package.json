@@ -1,5 +1,6 @@
 {
   "name": "package-sorter-frontend",
+  "description": "UIs for scan barcodes on packages and instantly know specific package details more effectively.",
   "version": "1.0.0",
   "repository": {
     "type": "git",
