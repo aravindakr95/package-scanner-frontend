@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --mode production",
-    "start": "webpack-dev-server --mode development --open",
+    "watch": "webpack-dev-server --mode development --open",
     "pm2run": "webpack-dev-server --mode development --no-devtool --no-live-reload"
   },
   "author": {
@@ -51,5 +51,9 @@
     "webpack": "^4.32.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.7.0"
+  },
+  "engines": {
+    "node": "14.16.0",
+    "npm": "6.14.11"
   }
 }
