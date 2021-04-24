@@ -15,8 +15,11 @@ export class ScannerComponent implements OnDestroy {
     private subscription: Subscription;
 
     public currentUser: User;
+    public availableDevices: MediaDeviceInfo[];
     public deviceCurrent: MediaDeviceInfo;
     public deviceSelected: string;
+    public hasPermission: boolean;
+    public hasDevices: boolean;
 
     public formatsEnabled: BarcodeFormat[] = [
         BarcodeFormat.CODE_128,
@@ -40,6 +43,15 @@ export class ScannerComponent implements OnDestroy {
             .subscribe((packageDetails: Package) => {
                 this.alertService.primary(`Sequence No: ${packageDetails.seqNo}`);
             });
+    }
+
+    public onCamerasFound(devices: MediaDeviceInfo[]): void {
+        this.availableDevices = devices;
+        this.hasDevices = Boolean(devices && devices.length);
+    }
+
+    public onHasPermission(has: boolean) {
+        this.hasPermission = has;
     }
 
     public onDeviceChange(device: MediaDeviceInfo) {

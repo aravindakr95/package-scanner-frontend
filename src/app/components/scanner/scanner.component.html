@@ -2,5 +2,7 @@
         [formats]="formatsEnabled"
         [device]="deviceCurrent"
         (scanSuccess)="onCodeResult($event)"
+        (permissionResponse)="onHasPermission($event)"
+        (camerasFound)="onCamerasFound($event)"
         (deviceChange)="onDeviceChange($event)">
 </zxing-scanner>
