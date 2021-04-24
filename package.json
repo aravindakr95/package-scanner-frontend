@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --mode production",
-    "watch": "webpack-dev-server --mode development --open --host 0.0.0.0 --port 4200",
+    "watch": "webpack-dev-server --mode development --open --host 0.0.0.0",
     "pm2run": "webpack-dev-server --mode development --no-devtool --no-live-reload"
   },
   "author": {

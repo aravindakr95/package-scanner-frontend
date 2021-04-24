@@ -1,1 +1,6 @@
-<zxing-scanner (scanSuccess)="onCodeResult($event)" [autostart]="true"></zxing-scanner>
+<zxing-scanner
+        [formats]="formatsEnabled"
+        [device]="deviceCurrent"
+        (scanSuccess)="onCodeResult($event)"
+        (deviceChange)="onDeviceChange($event)">
+</zxing-scanner>
