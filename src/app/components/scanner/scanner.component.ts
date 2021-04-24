@@ -40,6 +40,7 @@ export class ScannerComponent implements OnDestroy {
         this.subscription = this.packageService.getPackageByBarcode(barcode)
             .pipe(first())
             .subscribe((response) => {
+                console.log(response);
                 const sequenceNo = response.data === null ? barcode + 'not found' :
                     'Sequence No: ' + response.data.seqNo;
                 this.alertService.primary(sequenceNo);
