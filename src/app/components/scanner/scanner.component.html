@@ -1,6 +1,7 @@
 <zxing-scanner
         [formats]="formatsEnabled"
         [device]="deviceCurrent"
+        [autostart]="true"
         (scanSuccess)="onCodeResult($event)"
         (permissionResponse)="onHasPermission($event)"
         (camerasFound)="onCamerasFound($event)"

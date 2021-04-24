@@ -37,13 +37,13 @@ export class ScannerComponent implements OnDestroy {
     }
 
     public onCodeResult(barcode: string): void {
-        console.log(barcode)
         this.subscription = this.packageService.getPackageByBarcode(barcode)
             .pipe(first())
             .subscribe((packageDetails: Package) => {
-                this.alertService.primary(`Sequence No: ${packageDetails.seqNo || 'Not Found'}`);
+                this.alertService.primary(`Sequence No: ${packageDetails.seqNo === undefined ? 
+                    barcode + 'not found' : packageDetails.seqNo}`);
             });
-    }
+    }K
 
     public onCamerasFound(devices: MediaDeviceInfo[]): void {
         this.availableDevices = devices;
