@@ -10,7 +10,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --mode production",
     "watch": "webpack-dev-server --mode development --open",
-    "start": "webpack-dev-server --mode development --open --host 0.0.0.0",
+    "start": "webpack-dev-server --mode development --open --host 127.0.0.1",
     "pm2run": "webpack-dev-server --mode development --no-devtool --no-live-reload"
   },
   "author": {
