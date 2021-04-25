@@ -13,6 +13,7 @@ import { PackageService } from '@/services/package.service';
 @Component({ templateUrl: 'scanner.component.html' })
 export class ScannerComponent implements OnDestroy {
     private subscription: Subscription;
+    private message: string;
 
     public currentUser: User;
     public availableDevices: MediaDeviceInfo[];
@@ -41,9 +42,9 @@ export class ScannerComponent implements OnDestroy {
             .pipe(first())
             .subscribe((response) => {
                 const sequenceNo = response.data ? response.data.seqNo : 'N/A'
-                const message = `Tracking ID: ${barcode}, Sequence No: ${sequenceNo}`;
+                this.message = `Tracking ID: ${barcode}, Sequence No: ${sequenceNo}`;
 
-                this.alertService.primary(message);
+                this.alertService.primary(this.message);
             });
     }
 
