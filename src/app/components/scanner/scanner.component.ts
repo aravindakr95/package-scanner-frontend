@@ -41,7 +41,7 @@ export class ScannerComponent implements OnDestroy {
             .pipe(first())
             .subscribe((response) => {
                 const sequenceNo = response.data ? response.data.seqNo : 'N/A'
-                const message = `Sequence No: ${sequenceNo}`;
+                const message = `Tracking ID: ${barcode}, Sequence No: ${sequenceNo}`;
 
                 this.alertService.primary(message);
             });
