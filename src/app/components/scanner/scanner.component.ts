@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BarcodeFormat } from "@zxing/library";
 
-import {Package, User} from '@/models';
+import { User } from '@/models';
 
 import { AlertService, AuthenticationService } from '@/services';
 import { PackageService } from '@/services/package.service';
@@ -41,9 +41,11 @@ export class ScannerComponent implements OnDestroy {
             .pipe(first())
             .subscribe((response) => {
                 const sequenceNo = response.data ? response.data.seqNo : 'N/A'
-                this.alertService.primary(`Sequence No: ${sequenceNo}`);
+                const message = `Sequence No: ${sequenceNo}`;
+
+                this.alertService.primary(message);
             });
-    }K
+    }
 
     public onCamerasFound(devices: MediaDeviceInfo[]): void {
         this.availableDevices = devices;
