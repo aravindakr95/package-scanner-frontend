@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -11,16 +11,11 @@ import { AlertService, AuthenticationService } from '@/services';
 import { PackageService } from '@/services/package.service';
 
 @Component({ templateUrl: 'scanner.component.html' })
-export class ScannerComponent implements OnDestroy {
+export class ScannerComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private message: string;
 
     public currentUser: User;
-    public availableDevices: MediaDeviceInfo[];
-    public deviceCurrent: MediaDeviceInfo;
-    public deviceSelected: string;
-    public hasPermission: boolean;
-    public hasDevices: boolean;
 
     public formatsEnabled: BarcodeFormat[] = [
         BarcodeFormat.CODE_128,
@@ -37,6 +32,10 @@ export class ScannerComponent implements OnDestroy {
         this.currentUser = this.authenticationService.currentUserValue;
     }
 
+    public ngOnInit() {
+        console.log('i fired');
+    }
+
     public onCodeResult(barcode: string): void {
         this.subscription = this.packageService.getPackageByBarcode(barcode)
             .pipe(first())
@@ -46,22 +45,6 @@ export class ScannerComponent implements OnDestroy {
 
                 this.alertService.primary(this.message);
             });
-    }
-
-    public onCamerasFound(devices: MediaDeviceInfo[]): void {
-        this.availableDevices = devices;
-        this.hasDevices = Boolean(devices && devices.length);
-    }
-
-    public onHasPermission(has: boolean) {
-        this.hasPermission = has;
-    }
-
-    public onDeviceChange(device: MediaDeviceInfo) {
-        const selectedStr = device?.deviceId || '';
-        if (this.deviceSelected === selectedStr) { return; }
-        this.deviceSelected = selectedStr;
-        this.deviceCurrent = device || undefined;
     }
 
     public ngOnDestroy(): void {

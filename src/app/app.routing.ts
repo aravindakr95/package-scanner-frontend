@@ -5,7 +5,7 @@ import { RegisterComponent, LoginComponent, PackagesListComponent, ScannerCompon
 import { AuthGuard } from '@/helpers';
 
 const routes: Routes = [
-    { path: '', component: PackagesListComponent, canActivate: [AuthGuard] },
+    { path: '', component: PackagesListComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     { path: 'scanner', component: ScannerComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
