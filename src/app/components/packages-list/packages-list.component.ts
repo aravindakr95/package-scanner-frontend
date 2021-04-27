@@ -77,15 +77,27 @@ export class PackagesListComponent implements OnInit, OnDestroy {
                 });
     }
 
-    public getTime(timestamp: string): string {
-        return new Date(timestamp).toLocaleString();
-    }
-
     public refreshPackagesList(): void {
+        const emptyValueRepresentation = 'N/A';
+
         this.subscription = this.packageService.getAllPackages()
             .pipe(first())
             .subscribe((packages) => {
-                this.packagesList = packages.data;
+                this.packagesList = packages.data.map(pkg => {
+                    if (pkg.lastScan === '') {
+                        pkg.lastScan = emptyValueRepresentation;
+                    }
+
+                    if (pkg.seqNo === '') {
+                        pkg.seqNo = emptyValueRepresentation;
+                    }
+
+                    if (pkg.nameAndAddress === '') {
+                        pkg.nameAndAddress = emptyValueRepresentation;
+                    }
+
+                    return pkg;
+                });
             });
     }
 

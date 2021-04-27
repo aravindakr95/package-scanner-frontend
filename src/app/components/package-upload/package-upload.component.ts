@@ -70,7 +70,7 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(() => {
                     this.modalRef.hide();
-                    this.alertService.success('Package list added successful', false);
+                    this.alertService.success(`${this.packages.length} packages added successful`, false);
                     this.loading = false;
                     this.saveClick.next();
                 },

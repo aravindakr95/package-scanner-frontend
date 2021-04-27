@@ -18,15 +18,6 @@
         [items]="packagesList"
         (init)="onDataTableInit($event)">
     <ng-data-table-column
-            [title]="'Time'"
-            [width]="50">
-        <ng-template #ngDataTableCell let-row="row">
-            <td (click)="$event.stopPropagation()">
-                <p>{{getTime(row.item.timestamp)}}</p>
-            </td>
-        </ng-template>
-    </ng-data-table-column>
-    <ng-data-table-column
             [field]="'barcode'"
             [title]="'Barcode'"
             [filterable]="true"
