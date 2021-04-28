@@ -42,9 +42,9 @@ export class ScannerComponent implements OnDestroy {
 
                 this.message = `Barcode ID: ${barcode}, Sequence No: ${sequenceNo}`;
 
-                beep.play().then(() => {
-                    this.alertService.primary(this.message);
-                });
+                beep.play();
+
+                this.alertService.primary(this.message);
             });
     }
 
