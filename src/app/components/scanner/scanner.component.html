@@ -1,5 +1,6 @@
 <zxing-scanner
         [formats]="formatsEnabled"
         [autostart]="true"
+        [torch]="true"
         (scanSuccess)="onCodeResult($event)">
 </zxing-scanner>
