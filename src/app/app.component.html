@@ -1,11 +1,11 @@
 ﻿<!-- nav -->
-<nav class="navbar navbar-expand-md navbar-light" style="background-color: #e3f2fd;" *ngIf="currentUser">
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" style="pointer-events: none;">Package Sorter</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" *ngIf="currentUser">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown" *ngIf="currentUser">
         <ul class="nav navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="'/'">Packages List</a>
@@ -42,7 +42,7 @@
 <footer class="bg-dark text-center text-lg-start">
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgb(228, 242, 254);">
-        <p class="text-dark">Made with &hearts;</p>
+        <p class="text-dark">Made with &hearts; Brilliant-Apps.Club</p>
         <p class="text-dark"><span>© 2021</span> Aravinda Rathnayake. All rights reserved.</p>
     </div>
     <!-- Copyright -->
