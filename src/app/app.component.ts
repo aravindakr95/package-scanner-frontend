@@ -1,18 +1,22 @@
-﻿import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+﻿import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
-import {AlertService, AuthenticationService} from './services';
-import {User} from './models';
+import { version } from '../../package.json';
+
+import { AuthenticationService } from './services';
+
+import { User } from './models';
+
+import { LogoutComponent } from "@/components";
 
 import './content/app.less';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
-import {PackageUploadComponent} from "@/components";
-import {LogoutComponent} from "@/components/logout/logout.component";
 
 @Component({selector: 'app-root', templateUrl: 'app.component.html'})
 export class AppComponent {
     public currentUser: User;
     public loading: boolean = false;
+    public version: string = version;
 
     constructor(private router: Router,
                 private authenticationService: AuthenticationService,
