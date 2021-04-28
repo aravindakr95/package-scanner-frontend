@@ -7,6 +7,8 @@ import { BarcodeFormat } from "@zxing/library";
 
 import { User } from '@/models';
 
+import {AudioLayout} from "@/enums";
+
 import { AlertService, AuthenticationService, PackageService } from '@/services';
 
 @Component({ templateUrl: 'scanner.component.html' })
@@ -35,10 +37,14 @@ export class ScannerComponent implements OnDestroy {
         this.subscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
             .pipe(first())
             .subscribe((response) => {
-                const sequenceNo = response.data ? response.data.seqNo : 'N/A'
-                this.message = `Tracking ID: ${barcode}, Sequence No: ${sequenceNo}`;
+                const sequenceNo = response.data ? response.data.seqNo : 'N/A';
+                const beep = new Audio(AudioLayout.BEEP);
 
-                this.alertService.primary(this.message);
+                this.message = `Barcode ID: ${barcode}, Sequence No: ${sequenceNo}`;
+
+                beep.play().then(() => {
+                    this.alertService.primary(this.message);
+                });
             });
     }
 
