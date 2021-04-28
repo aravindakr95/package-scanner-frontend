@@ -66,7 +66,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     }
 
     private removeAllPackages(): void {
-        this.subscription = this.packageService.removePackages()
+        this.subscription = this.packageService.removePackages(this.currentUser.userId)
             .pipe(first())
             .subscribe(() => {
                     this.alertService.primary('Package list removed successful', false);
@@ -80,7 +80,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public refreshPackagesList(): void {
         const emptyValueRepresentation = 'N/A';
 
-        this.subscription = this.packageService.getAllPackages()
+        this.subscription = this.packageService.getAllPackages(this.currentUser.userId)
             .pipe(first())
             .subscribe((packages) => {
                 this.packagesList = packages.data.map(pkg => {

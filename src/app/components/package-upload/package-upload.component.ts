@@ -5,15 +5,16 @@ import { first } from 'rxjs/operators';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { camelCase } from 'lodash/string';
 
-import { Package } from '@/models';
+import { Package, User } from '@/models';
 
-import { AlertService, PackageService } from '@/services';
+import { AlertService, AuthenticationService, PackageService } from '@/services';
 
 @Component({ templateUrl: 'package-upload.component.html' })
 export class PackageUploadComponent implements OnInit, OnDestroy {
     public packageForm: FormGroup;
     public packages: Package[];
 
+    private currentUser: User;
     private subscription: Subscription;
 
     public saveClick = new Subject();
@@ -21,10 +22,12 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
     public isFileLoaded: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
-                public modalRef: BsModalRef,
                 private packageService: PackageService,
-                private alertService: AlertService
+                private authService: AuthenticationService,
+                private alertService: AlertService,
+                public modalRef: BsModalRef,
     ) {
+        this.currentUser = this.authService.currentUserValue;
     }
 
     private static removeDuplicatedQuotes(field) {
@@ -49,7 +52,10 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
             result.push(obj);
         }
 
-        this.packages = result;
+        this.packages = result.map(pkg => {
+            pkg['userId'] = this.currentUser.userId;
+            return pkg;
+        });
     }
 
     private csvToText(file): Observable<boolean> {

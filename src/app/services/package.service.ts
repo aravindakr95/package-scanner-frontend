@@ -16,16 +16,16 @@ export class PackageService {
         return this.http.post(`${PackageService.package_url}/upload`, packages);
     }
 
-    public getPackageByBarcode(barcode): Observable<any> {
+    public getPackageByBarcode(userId: string, barcode: string): Observable<any> {
         const params = { barcode };
-        return this.http.get(`${PackageService.package_url}`, { params });
+        return this.http.get(`${PackageService.package_url}/${userId}`, { params });
     }
 
-    public getAllPackages(): Observable<any> {
-        return this.http.get(PackageService.package_url);
+    public getAllPackages(userId: string): Observable<any> {
+        return this.http.get(`${PackageService.package_url}/${userId}`);
     }
 
-    public removePackages(): Observable<any> {
-        return this.http.delete(`${PackageService.package_url}/delete`);
+    public removePackages(userId: string): Observable<any> {
+        return this.http.delete(`${PackageService.package_url}/${userId}/delete`);
     }
 }

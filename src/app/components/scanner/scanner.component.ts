@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -7,11 +7,10 @@ import { BarcodeFormat } from "@zxing/library";
 
 import { User } from '@/models';
 
-import { AlertService, AuthenticationService } from '@/services';
-import { PackageService } from '@/services/package.service';
+import { AlertService, AuthenticationService, PackageService } from '@/services';
 
 @Component({ templateUrl: 'scanner.component.html' })
-export class ScannerComponent implements OnInit, OnDestroy {
+export class ScannerComponent implements OnDestroy {
     private subscription: Subscription;
     private message: string;
 
@@ -32,12 +31,8 @@ export class ScannerComponent implements OnInit, OnDestroy {
         this.currentUser = this.authenticationService.currentUserValue;
     }
 
-    public ngOnInit() {
-        console.log('i fired');
-    }
-
     public onCodeResult(barcode: string): void {
-        this.subscription = this.packageService.getPackageByBarcode(barcode)
+        this.subscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
             .pipe(first())
             .subscribe((response) => {
                 const sequenceNo = response.data ? response.data.seqNo : 'N/A'
