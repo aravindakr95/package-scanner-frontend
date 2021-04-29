@@ -28,6 +28,10 @@ export class AppComponent {
         this.router.navigate([route]);
     }
 
+    public isActiveRoute(url: string): boolean {
+        return this.router.url === url;
+    }
+
     public openLogoutModal(): void {
         this.loading = true;
 
