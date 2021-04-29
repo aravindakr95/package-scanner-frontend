@@ -1,21 +1,25 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BarcodeFormat } from "@zxing/library";
+import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 import { User } from '@/models';
 
 import { AlertService, AuthenticationService, PackageService } from '@/services';
 
-@Component({ templateUrl: 'scanner.component.html' })
-export class ScannerComponent implements OnDestroy {
+@Component({ templateUrl: 'barcode-scanner.component.html' })
+export class BarcodeScannerComponent implements OnDestroy {
     private subscription: Subscription;
     private message: string;
 
+    public faLightbulb = faLightbulb;
+    public torchStatus: string = '0';
+    public isTorchEnabled: boolean = false;
+    public isTorchAvailable = new BehaviorSubject<boolean>(false);
     public currentUser: User;
-
     public formatsEnabled: BarcodeFormat[] = [
         BarcodeFormat.CODE_128,
         BarcodeFormat.DATA_MATRIX,
@@ -40,6 +44,14 @@ export class ScannerComponent implements OnDestroy {
                 this.message = `Barcode ID: ${barcode}, Sequence No: ${sequenceNo}`;
                 this.alertService.primary(this.message);
             });
+    }
+
+    public onTorchCompatible(isCompatible: boolean): void {
+        this.isTorchAvailable.next(isCompatible || false);
+    }
+
+    public toggleTorch(): void {
+        this.isTorchEnabled = !this.isTorchEnabled;
     }
 
     public ngOnDestroy(): void {

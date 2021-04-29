@@ -15,8 +15,7 @@
     </div>
     <div class="modal-footer">
         <button [disabled]="loading" class="btn btn-primary btn-sm" (click)="onSubmit(csvFile)">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            <i class="fa fa-save"></i> Add
+            <fa-icon [icon]="faUpload"></fa-icon> Add
         </button>
         <a class="btn btn-link btn-sm" (click)="onCancelClick()">Cancel</a>
     </div>

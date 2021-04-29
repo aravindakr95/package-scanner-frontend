@@ -1,9 +1,7 @@
-<button type="button" class="btn btn-outline-primary btn-sm" (click)="openAddNewModal()"><span>
-    <i class="fa fa-save"></i>
-</span> Add CSV</button> &nbsp;
-<button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()"><span>
-    <i class="fa fa-trash"></i>
-</span> Empty Package List</button>
+<button type="button" class="btn btn-outline-primary btn-sm" (click)="openAddNewModal()">
+    <fa-icon [icon]="faSave"></fa-icon> Add CSV</button> &nbsp;
+<button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()">
+    <fa-icon [icon]="faTrash"></fa-icon> Empty Package List</button>
 <br> &nbsp;
 <ng-data-table
         [id]="'packages_list'"

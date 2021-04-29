@@ -1,10 +1,12 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTableModule } from 'ornamentum';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ButtonsModule } from "ngx-bootstrap/buttons";
 import { ZXingScannerModule } from "@zxing/ngx-scanner";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { AppComponent } from './app.component';
 
@@ -15,7 +17,7 @@ import {
     LoginComponent,
     LogoutComponent,
     PackagesListComponent,
-    ScannerComponent,
+    BarcodeScannerComponent,
     PackageUploadComponent,
     AlertComponent
 } from '@/components';
@@ -27,8 +29,11 @@ import { ErrorInterceptor, JwtInterceptor } from '@/helpers';
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
+        FormsModule,
         ModalModule.forRoot(),
+        ButtonsModule.forRoot(),
         DataTableModule.forRoot(),
+        FontAwesomeModule,
         ZXingScannerModule,
         appRoutingModule
     ],
@@ -38,7 +43,7 @@ import { ErrorInterceptor, JwtInterceptor } from '@/helpers';
         LoginComponent,
         LogoutComponent,
         PackagesListComponent,
-        ScannerComponent,
+        BarcodeScannerComponent,
         PackageUploadComponent,
         AlertComponent,
     ],

@@ -2,6 +2,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
 
 import { AlertService, AuthenticationService } from '@/services';
 
@@ -10,6 +11,7 @@ export class LoginComponent implements OnInit {
     public loginForm: FormGroup;
     public returnUrl: string;
 
+    public faSignInAlt = faSignInAlt;
     public loading = false;
     public submitted = false;
 

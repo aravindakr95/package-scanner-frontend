@@ -4,6 +4,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { camelCase } from 'lodash/string';
+import { faUpload } from "@fortawesome/free-solid-svg-icons/faUpload";
 
 import { Package, User } from '@/models';
 
@@ -13,6 +14,7 @@ import { AlertService, AuthenticationService, PackageService } from '@/services'
 export class PackageUploadComponent implements OnInit, OnDestroy {
     public packageForm: FormGroup;
     public packages: Package[];
+    public faUpload = faUpload;
 
     private currentUser: User;
     private subscription: Subscription;

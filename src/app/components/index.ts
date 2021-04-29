@@ -1,4 +1,4 @@
-export { ScannerComponent } from './scanner';
+export { BarcodeScannerComponent } from './barcode-scanner';
 export { PackagesListComponent } from './packages-list';
 export { LoginComponent } from './login';
 export { LogoutComponent } from './logout';

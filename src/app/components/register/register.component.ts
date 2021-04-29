@@ -2,12 +2,14 @@
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons/faUserPlus";
 
 import { AlertService, AuthenticationService } from '@/services';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
     public registerForm: FormGroup;
+    public faUserPlus = faUserPlus;
     public loading = false;
     public submitted = false;
 

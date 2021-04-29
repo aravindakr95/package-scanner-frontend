@@ -1,4 +1,4 @@
-﻿<h3>Login</h3>
+﻿<h3>Welcome</h3>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <label for="email">Email</label>
@@ -18,8 +18,7 @@
     </div>
     <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary btn-sm">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Login
+            <fa-icon [icon]="faSignInAlt"></fa-icon> Login
         </button>
         <a routerLink="/register" class="btn btn-link btn-sm">Did not registered yet?</a>
     </div>

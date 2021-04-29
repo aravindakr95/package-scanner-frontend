@@ -4,6 +4,8 @@ import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DataTableComponent } from 'ornamentum';
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
 
 import { Package, User } from '@/models';
 
@@ -18,6 +20,8 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public packageForm: FormGroup;
     public currentUser: User;
     public packagesList: Package[];
+    public faSave = faSave;
+    public faTrash = faTrash
 
     public loading = false;
 
