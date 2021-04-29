@@ -1,13 +1,11 @@
-<button type="button" class="btn btn-sm btn-outline-primary"
-        [(ngModel)]="torchStatus" btnCheckbox
-        btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="toggleTorch()">
-    <fa-icon [icon]="faLightbulb"></fa-icon> {{torchStatus === '0' ? 'Enable Torch' : 'Disable Torch'}}
-</button>
-<br> &nbsp;
+<!--<button disabled type="button" class="btn btn-sm btn-outline-primary"-->
+<!--        [(ngModel)]="torchStatus" btnCheckbox-->
+<!--        btnCheckboxTrue="1" btnCheckboxFalse="0" (click)="toggleTorch()">-->
+<!--    <fa-icon [icon]="faLightbulb"></fa-icon> {{torchStatus === '0' ? 'Enable Torch' : 'Disable Torch'}}-->
+<!--</button>-->
+<!--<br> &nbsp;-->
 <zxing-scanner
         [formats]="formatsEnabled"
         [autostart]="true"
-        [torch]="isTorchEnabled"
-        (torchCompatible)="onTorchCompatible($event)"
         (scanSuccess)="onCodeResult($event)">
 </zxing-scanner>
