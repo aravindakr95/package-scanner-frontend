@@ -52,6 +52,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
         this.loading = true;
 
         const modalRef: BsModalRef = this.modalService.show(PackageUploadComponent, { ignoreBackdropClick: true });
+        modalRef.content.faSave = this.faSave;
         modalRef.content.saveClick.subscribe(() => {
             this.refreshPackagesList();
         });
@@ -63,7 +64,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
         const modalRef: BsModalRef = this.modalService.show(LogoutComponent, { ignoreBackdropClick: true });
         modalRef.content.title = 'Remove Packages';
         modalRef.content.message = 'Are you sure you want to remove all packages data?';
-        modalRef.content.confirmIcon = 'fa fa-trash';
+        modalRef.content.confirmIcon = this.faTrash;
         modalRef.content.saveClick.subscribe(() => {
             this.removeAllPackages();
         });

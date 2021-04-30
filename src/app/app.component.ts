@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { faPowerOff } from "@fortawesome/free-solid-svg-icons/faPowerOff";
 
 import { version } from '../../package.json';
 
@@ -38,7 +39,7 @@ export class AppComponent {
         const modalRef: BsModalRef = this.modalService.show(LogoutComponent, {ignoreBackdropClick: true});
         modalRef.content.title = 'Logout Account';
         modalRef.content.message = 'Are you sure you want to Logout?';
-        modalRef.content.confirmIcon = 'fa fa-power-off';
+        modalRef.content.confirmIcon = faPowerOff;
         modalRef.content.saveClick.subscribe(() => {
             this.authenticationService.logoutUser();
             this.navigate('/login');
