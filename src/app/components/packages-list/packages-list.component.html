@@ -50,7 +50,7 @@
             <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE" style="color: #4dc71f;">
                 <span>{{ScanStatus.COMPLETE}}</span>
             </td>
-            <td *ngIf="!row.item.scanStatus === ScanStatus.PENDING" style="color: #b41010;">
+            <td *ngIf="row.item.scanStatus === ScanStatus.PENDING" style="color: #b41010;">
                 <span>{{ScanStatus.PENDING}}</span>
             </td>
         </ng-template>
