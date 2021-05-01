@@ -25,6 +25,11 @@ export class PackageService {
         return this.http.get(`${PackageService.package_url}/${userId}`);
     }
 
+    public updatePackageScanStatus(userId: string, barcode: string, status = true): Observable<any> {
+        const params = { barcode };
+        return this.http.put(`${PackageService.package_url}/${userId}`, { status }, { params })
+    }
+
     public removePackages(userId: string): Observable<any> {
         return this.http.delete(`${PackageService.package_url}/${userId}/delete`);
     }

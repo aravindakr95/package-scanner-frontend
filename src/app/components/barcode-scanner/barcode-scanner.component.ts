@@ -22,8 +22,7 @@ export class BarcodeScannerComponent implements OnDestroy {
     public formatsEnabled: BarcodeFormat[] = [
         BarcodeFormat.CODE_128,
         BarcodeFormat.DATA_MATRIX,
-        BarcodeFormat.EAN_13,
-        BarcodeFormat.QR_CODE,
+        BarcodeFormat.EAN_13
     ];
 
     constructor(private formBuilder: FormBuilder,
@@ -34,13 +33,20 @@ export class BarcodeScannerComponent implements OnDestroy {
         this.currentUser = this.authenticationService.currentUserValue;
     }
 
+    private updatePackageStatus(barcode: string): void {
+        this.packageService.updatePackageScanStatus(this.currentUser.userId, barcode);
+    }
+
     public onCodeResult(barcode: string): void {
         this.subscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
             .pipe(first())
             .subscribe((response) => {
                 const sequenceNo = response.data ? response.data.seqNo : 'N/A';
+                const lastScan = response.data ? response.data.lastScan : 'N/A';
 
-                this.message = `Barcode ID: ${barcode}, Sequence No: ${sequenceNo}`;
+                this.updatePackageStatus(barcode);
+
+                this.message = `Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`;
                 this.alertService.primary(this.message);
             });
     }

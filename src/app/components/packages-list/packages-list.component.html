@@ -1,12 +1,16 @@
 <button type="button" class="btn btn-outline-primary btn-sm" (click)="openAddNewModal()">
-    <fa-icon [icon]="faSave"></fa-icon> Add CSV</button> &nbsp;
+    <fa-icon [icon]="faSave"></fa-icon>
+    Add CSV
+</button> &nbsp;
 <button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()">
-    <fa-icon [icon]="faTrash"></fa-icon> Empty Package List</button>
+    <fa-icon [icon]="faTrash"></fa-icon>
+    Empty Package List
+</button>
 <br> &nbsp;
 <ng-data-table
         [id]="'packages_list'"
         [title]="'Packages List'"
-        [selectTrackBy]="'_id'"
+        [selectTrackBy]="'barcode'"
         [showHeader]="true"
         [showColumnSelector]="true"
         [minContentWidth]="800"
@@ -23,15 +27,33 @@
     </ng-data-table-column>
     <ng-data-table-column
             [field]="'lastScan'"
-            [title]="'Last Scan'"
+            [title]="'Assignee'"
             [filterable]="true"
-            [width]="50">
+            [sortable]="true"
+            [width]="40">
     </ng-data-table-column>
     <ng-data-table-column
             [field]="'seqNo'"
             [title]="'Sequence No'"
             [filterable]="true"
-            [width]="30">
+            [sortable]="true"
+            [width]="40">
+    </ng-data-table-column>
+    <ng-data-table-column
+            [field]="'isScanned'"
+            [title]="'Scan Status'"
+            [filterable]="true"
+            [showDropdownFilter]="true"
+            [sortable]="true"
+            [width]="40">
+        <ng-template #ngDataTableCell let-row="row">
+            <td *ngIf="row.item.isScanned" style="color: #4dc71f;">
+                <span>Complete</span>
+            </td>
+            <td *ngIf="!row.item.isScanned" style="color: #b41010;">
+                <span>Pending</span>
+            </td>
+        </ng-template>
     </ng-data-table-column>
     <ng-data-table-column
             [field]="'nameAndAddress'"
