@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Package } from '@/models';
 
 import { environment } from '@/environments/environment';
+import {ScanStatus} from "@/enums";
 
 @Injectable({ providedIn: 'root' })
 export class PackageService {
@@ -25,9 +26,9 @@ export class PackageService {
         return this.http.get(`${PackageService.package_url}/${userId}`);
     }
 
-    public updatePackageScanStatus(userId: string, barcode: string, isScanned = true): Observable<any> {
+    public updatePackageScanStatus(userId: string, barcode: string, scanStatus = ScanStatus.COMPLETE): Observable<any> {
         const params = { barcode };
-        return this.http.put(`${PackageService.package_url}/${userId}`, { isScanned }, { params })
+        return this.http.put(`${PackageService.package_url}/${userId}`, { scanStatus }, { params })
     }
 
     public removePackages(userId: string): Observable<any> {

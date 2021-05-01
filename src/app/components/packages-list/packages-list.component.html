@@ -40,18 +40,18 @@
             [width]="40">
     </ng-data-table-column>
     <ng-data-table-column
-            [field]="'isScanned'"
+            [field]="'scanStatus'"
             [title]="'Scan Status'"
             [filterable]="true"
             [showDropdownFilter]="true"
             [sortable]="true"
             [width]="40">
         <ng-template #ngDataTableCell let-row="row">
-            <td *ngIf="row.item.isScanned" style="color: #4dc71f;">
-                <span>Complete</span>
+            <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE" style="color: #4dc71f;">
+                <span>{{ScanStatus.COMPLETE}}</span>
             </td>
-            <td *ngIf="!row.item.isScanned" style="color: #b41010;">
-                <span>Pending</span>
+            <td *ngIf="!row.item.scanStatus === ScanStatus.PENDING" style="color: #b41010;">
+                <span>{{ScanStatus.PENDING}}</span>
             </td>
         </ng-template>
     </ng-data-table-column>

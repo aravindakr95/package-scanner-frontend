@@ -9,6 +9,8 @@ import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
 
 import { Package, User } from '@/models';
 
+import { ScanStatus } from "@/enums";
+
 import { AlertService, AuthenticationService } from '@/services';
 import { PackageService } from '@/services/package.service';
 
@@ -22,6 +24,8 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public packagesList: Package[];
     public faSave = faSave;
     public faTrash = faTrash
+
+    public ScanStatus = ScanStatus;
 
     public loading = false;
 
