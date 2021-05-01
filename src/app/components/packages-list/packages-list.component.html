@@ -18,7 +18,8 @@
         [limit]="10"
         [pageable]="true"
         [items]="packagesList"
-        (init)="onDataTableInit($event)">
+        (init)="onDataTableInit($event)"
+        (rowDoubleClick)="onRowDoubleClick($event)">
     <ng-data-table-column
             [field]="'barcode'"
             [title]="'Barcode'"

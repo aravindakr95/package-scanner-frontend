@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { DataTableComponent } from 'ornamentum';
+import { DataTableComponent, DataTableDoubleClickEventArgs } from 'ornamentum';
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
 
@@ -38,6 +38,13 @@ export class PackagesListComponent implements OnInit, OnDestroy {
                 private alertService: AlertService,
                 private packageService: PackageService) {
         this.currentUser = this.authenticationService.currentUserValue;
+    }
+
+    private updatePackageStatus(barcode: string): void {
+        this.subscription = this.packageService.updatePackageScanStatus(this.currentUser.userId, barcode)
+            .subscribe(() => {
+            this.refreshPackagesList();
+        });
     }
 
     public ngOnInit(): void {
@@ -108,6 +115,10 @@ export class PackagesListComponent implements OnInit, OnDestroy {
                     return pkg;
                 });
             });
+    }
+
+    public onRowDoubleClick(args: DataTableDoubleClickEventArgs<any>): void {
+        this.updatePackageStatus(args.row.item.barcode);
     }
 
     public ngOnDestroy(): void {
