@@ -9,6 +9,7 @@ import { BarcodeFormat } from "@zxing/library";
 import { User } from '@/models';
 
 import { AlertService, AuthenticationService, PackageService } from '@/services';
+import {ScanStatus} from "@/enums";
 
 @Component({ templateUrl: 'barcode-scanner.component.html' })
 export class BarcodeScannerComponent implements OnDestroy {
@@ -53,7 +54,10 @@ export class BarcodeScannerComponent implements OnDestroy {
                 }
 
                 this.alertService.primary(`Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`);
-                this.updatePackageStatus(barcode);
+
+                if (response.data && response.data.scanStatus === ScanStatus.PENDING) {
+                    this.updatePackageStatus(barcode);
+                }
             });
     }
 
