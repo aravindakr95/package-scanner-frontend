@@ -8,13 +8,14 @@ import { BarcodeFormat } from "@zxing/library";
 
 import { User } from '@/models';
 
+import { ScanStatus } from "@/enums";
+
 import { AlertService, AuthenticationService, PackageService } from '@/services';
-import {ScanStatus} from "@/enums";
 
 @Component({ templateUrl: 'barcode-scanner.component.html' })
 export class BarcodeScannerComponent implements OnDestroy {
-    private subscription: Subscription;
-    private message: string;
+    private getSubscription: Subscription;
+    private putSubscription: Subscription;
 
     // public faLightbulb = faLightbulb;
     // public torchStatus: string = '0';
@@ -35,25 +36,26 @@ export class BarcodeScannerComponent implements OnDestroy {
     }
 
     private updatePackageStatus(barcode: string): void {
-        this.subscription = this.packageService.updatePackageScanStatus(this.currentUser.userId, barcode).subscribe();
+        this.putSubscription = this.packageService.updatePackageScanStatus(this.currentUser.userId, barcode).subscribe();
     }
 
     public onCodeResult(barcode: string): void {
-        this.subscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
+        this.getSubscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
             .pipe(first())
             .subscribe((response) => {
                 let sequenceNo = response.data ? response.data.seqNo : 'N/A';
                 let lastScan = response.data ? response.data.lastScan : 'N/A';
 
-                if (response.data.seqNo === '') {
+                if (response.data && response.data.seqNo === '') {
                     sequenceNo = 'N/A';
                 }
 
-                if (response.data.lastScan === '') {
+                if (response.data && response.data.lastScan === '') {
                     lastScan = 'N/A';
                 }
 
-                this.alertService.primary(`Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`);
+                this.alertService
+                    .primary(`Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`);
 
                 if (response.data && response.data.scanStatus === ScanStatus.PENDING) {
                     this.updatePackageStatus(barcode);
@@ -66,8 +68,12 @@ export class BarcodeScannerComponent implements OnDestroy {
     // }
 
     public ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
+        if (this.getSubscription) {
+            this.getSubscription.unsubscribe();
+        }
+
+        if (this.putSubscription) {
+            this.putSubscription.unsubscribe();
         }
     }
 }
