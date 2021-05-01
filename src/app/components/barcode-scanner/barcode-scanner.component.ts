@@ -41,8 +41,16 @@ export class BarcodeScannerComponent implements OnDestroy {
         this.subscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
             .pipe(first())
             .subscribe((response) => {
-                const sequenceNo = response.data ? response.data.seqNo : 'N/A';
-                const lastScan = response.data ? response.data.lastScan : 'N/A';
+                let sequenceNo = response.data ? response.data.seqNo : 'N/A';
+                let lastScan = response.data ? response.data.lastScan : 'N/A';
+
+                if (response.data.seqNo === '') {
+                    sequenceNo = 'N/A';
+                }
+
+                if (response.data.lastScan === '') {
+                    lastScan = 'N/A';
+                }
 
                 this.alertService.primary(`Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`);
                 this.updatePackageStatus(barcode);
