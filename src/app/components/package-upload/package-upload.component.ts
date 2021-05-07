@@ -74,6 +74,27 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
     }
 
     private addPackages(): void {
+        const emptyValueRepresentation = 'N/A';
+        this.packages = this.packages.map((pkg: Package) => {
+            if (pkg.barcode === '') {
+                pkg.barcode = emptyValueRepresentation;
+            }
+
+            if (pkg.lastScan === '') {
+                pkg.lastScan = emptyValueRepresentation;
+            }
+
+            if (pkg.seqNo === '') {
+                pkg.seqNo = emptyValueRepresentation;
+            }
+
+            if (pkg.nameAndAddress === '') {
+                pkg.nameAndAddress = emptyValueRepresentation;
+            }
+
+            return pkg;
+        });
+
         this.subscription = this.packageService.addPackageCSV(this.packages)
             .pipe(first())
             .subscribe(() => {

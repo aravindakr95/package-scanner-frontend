@@ -36,7 +36,7 @@ export class BarcodeScannerComponent implements OnDestroy {
     }
 
     private updatePackageStatus(barcode: string): void {
-        this.putSubscription = this.packageService.updatePackageScanStatus(this.currentUser.userId, barcode).subscribe();
+        this.putSubscription = this.packageService.updateScanStatusByBarcode(this.currentUser.userId, barcode).subscribe();
     }
 
     public onCodeResult(barcode: string): void {
@@ -45,14 +45,6 @@ export class BarcodeScannerComponent implements OnDestroy {
             .subscribe((response) => {
                 let sequenceNo = response.data ? response.data.seqNo : 'N/A';
                 let lastScan = response.data ? response.data.lastScan : 'N/A';
-
-                if (response.data && response.data.seqNo === '') {
-                    sequenceNo = 'N/A';
-                }
-
-                if (response.data && response.data.lastScan === '') {
-                    lastScan = 'N/A';
-                }
 
                 this.alertService
                     .primary(`Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`);

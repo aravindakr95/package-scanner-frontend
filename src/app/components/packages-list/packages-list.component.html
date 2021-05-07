@@ -18,8 +18,12 @@
         [limit]="10"
         [pageable]="true"
         [items]="packagesList"
-        (init)="onDataTableInit($event)"
-        (rowDoubleClick)="onRowDoubleClick($event)">
+        [rowSelectable]="true"
+        [selectMode]="'multi'"
+        [showRowSelectCheckbox]="true"
+        [selectionColumnWidth]="10"
+        [selectedRows]="selectedRows"
+        (rowSelectChange)="onRowSelectChange($event)">
     <ng-data-table-column
             [field]="'barcode'"
             [title]="'Barcode'"
@@ -48,7 +52,7 @@
             [sortable]="true"
             [width]="40">
         <ng-template #ngDataTableCell let-row="row">
-            <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE" style="color: #4dc71f;">
+            <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE" style="color: #ffffff;">
                 <span>{{ScanStatus.COMPLETE}}</span>
             </td>
             <td *ngIf="row.item.scanStatus === ScanStatus.PENDING" style="color: #b41010;">

@@ -1,78 +1,77 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { DataTableComponent, DataTableDoubleClickEventArgs } from 'ornamentum';
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { Package, User } from '@/models';
 
 import { ScanStatus } from "@/enums";
 
-import { AlertService, AuthenticationService } from '@/services';
-import { PackageService } from '@/services/package.service';
+import { AlertService, AuthenticationService, PackageService } from '@/services';
 
-import { PackageUploadComponent } from '@/components/package-upload';
-import { LogoutComponent } from "@/components";
+import { LogoutComponent, PackageUploadComponent } from "@/components";
 
-@Component({ templateUrl: 'packages-list.component.html' })
+@Component({templateUrl: 'packages-list.component.html'})
 export class PackagesListComponent implements OnInit, OnDestroy {
-    public packageForm: FormGroup;
     public currentUser: User;
     public packagesList: Package[];
-    public faSave = faSave;
-    public faTrash = faTrash
+    public selectedRows: any[] = [];
+    public faSave: IconDefinition = faSave;
+    public faTrash: IconDefinition = faTrash
+    public loading: boolean = false;
 
     public ScanStatus = ScanStatus;
 
-    public loading = false;
-
     private subscription: Subscription;
-    private dataTable: DataTableComponent;
 
-    constructor(private formBuilder: FormBuilder,
-                private modalService: BsModalService,
+    constructor(private modalService: BsModalService,
                 private authenticationService: AuthenticationService,
                 private alertService: AlertService,
                 private packageService: PackageService) {
         this.currentUser = this.authenticationService.currentUserValue;
     }
 
-    private updatePackageStatus(barcode: string): void {
-        this.subscription = this.packageService.updatePackageScanStatus(this.currentUser.userId, barcode)
-            .subscribe(() => {
-            this.refreshPackagesList();
+    private updateSelectedRows(): void {
+        this.packagesList.filter((pkg: Package) => {
+            if (pkg.scanStatus === ScanStatus.COMPLETE) {
+                this.selectedRows.push(pkg._id);
+            }
         });
+    }
+
+    private refreshPackagesList(): void {
+        this.subscription = this.packageService.getAllPackages(this.currentUser.userId)
+            .pipe(first()).subscribe((packages) => {
+                this.packagesList = packages.data
+                this.updateSelectedRows();
+            });
+    }
+
+    private updatePackageStatus(packageId: string): void {
+        this.subscription = this.packageService.updateScanStatusById(this.currentUser.userId, packageId)
+            .subscribe(() => this.refreshPackagesList());
     }
 
     public ngOnInit(): void {
-        this.packageForm = this.formBuilder.group({
-            title: ['', Validators.required],
-            description: ['', Validators.required]
-        });
         this.refreshPackagesList();
-    }
-
-    public onDataTableInit(dataTable: DataTableComponent): void {
-        this.dataTable = dataTable;
     }
 
     public openAddNewModal(): void {
         this.loading = true;
 
-        const modalRef: BsModalRef = this.modalService.show(PackageUploadComponent, { ignoreBackdropClick: true });
+        const modalRef: BsModalRef = this.modalService.show(PackageUploadComponent,
+            {ignoreBackdropClick: true});
         modalRef.content.faSave = this.faSave;
-        modalRef.content.saveClick.subscribe(() => {
-            this.refreshPackagesList();
-        });
+        modalRef.content.saveClick.subscribe(() => this.refreshPackagesList());
     }
 
     public openRemoveModal(): void {
         this.loading = true;
 
-        const modalRef: BsModalRef = this.modalService.show(LogoutComponent, { ignoreBackdropClick: true });
+        const modalRef: BsModalRef = this.modalService.show(LogoutComponent, {ignoreBackdropClick: true});
         modalRef.content.title = 'Remove Packages';
         modalRef.content.message = 'Are you sure you want to remove all packages data?';
         modalRef.content.confirmIcon = this.faTrash;
@@ -93,32 +92,15 @@ export class PackagesListComponent implements OnInit, OnDestroy {
                 });
     }
 
-    public refreshPackagesList(): void {
-        const emptyValueRepresentation = 'N/A';
+    public onRowSelectChange(pkgIds: string[]): void {
+        if (!this.packagesList || !this.packagesList.length) {
+            return;
+        }
 
-        this.subscription = this.packageService.getAllPackages(this.currentUser.userId)
-            .pipe(first())
-            .subscribe((packages) => {
-                this.packagesList = packages.data.map(pkg => {
-                    if (pkg.lastScan === '') {
-                        pkg.lastScan = emptyValueRepresentation;
-                    }
-
-                    if (pkg.seqNo === '') {
-                        pkg.seqNo = emptyValueRepresentation;
-                    }
-
-                    if (pkg.nameAndAddress === '') {
-                        pkg.nameAndAddress = emptyValueRepresentation;
-                    }
-
-                    return pkg;
-                });
-            });
-    }
-
-    public onRowDoubleClick(args: DataTableDoubleClickEventArgs<any>): void {
-        this.updatePackageStatus(args.row.item.barcode);
+        if (pkgIds && pkgIds.length) {
+            const packageId = pkgIds[pkgIds.length - 1];
+            this.updatePackageStatus(packageId);
+        }
     }
 
     public ngOnDestroy(): void {
