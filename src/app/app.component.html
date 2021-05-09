@@ -1,26 +1,26 @@
 ﻿<!-- nav -->
-<nav class="navbar navbar-expand-md navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" style="pointer-events: none;"><span style="color:#b41010;">REDV</span>an Sorter</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+<nav class="navbar navbar-expand-md navbar-light bg-secondary">
+    <a class="navbar-brand text-light" style="pointer-events: none"><span style="color:#b41010;">REDV</span>AN SORTER</a>
+    <button class="navbar-toggler text-light" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" *ngIf="currentUser">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown" *ngIf="currentUser">
+    <div class="collapse navbar-collapse text-light" id="navbarNavDropdown" *ngIf="currentUser">
         <ul class="nav navbar-nav mr-auto">
             <li class="nav-item" [class.active]="isActiveRoute('/')">
-                <a class="nav-link" [routerLink]="'/'">Packages List</a>
+                <a class="nav-link" [routerLink]="'/'"><fa-icon [icon]="faArchive"></fa-icon> PACKAGES LIST</a>
             </li>
             <li class="nav-item" [class.active]="isActiveRoute('/scanner')">
-                <a class="nav-link" [routerLink]="'/scanner'">Barcode Scanner</a>
+                <a class="nav-link" [routerLink]="'/scanner'"><fa-icon [icon]="faQrcode"></fa-icon> SCANNER</a>
             </li>
         </ul>
         <ul class="nav navbar-nav ml-auto">
-            <li>
-                <a class="nav-item nav-link"
-                   style="pointer-events: none; color: #4879c7">Greetings, {{currentUser.fullName}}</a>
+            <li class="nav-item">
+                <a class="nav-link text-light"
+                   style="pointer-events: none"><fa-icon [icon]="faUserCircle"></fa-icon> {{currentUser.fullName.toUpperCase()}}</a>
             </li>
-            <li>
-                <a class="nav-item nav-link" style="color: #b41010" (click)="openLogoutModal()">Logout</a>
+            <li class="nav-item">
+                <a class="nav-link" style="color: #b41010" (click)="openLogoutModal()"><fa-icon [icon]="faPowerOff"></fa-icon> LOGOUT</a>
             </li>
         </ul>
     </div>
@@ -39,11 +39,11 @@
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-center text-lg-start">
+<footer class="text-center text-lg-start">
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgb(228, 242, 254);">
-        <p class="text-dark">Made with &hearts; Brilliant-Apps.Club</p>
-        <p class="text-dark"><span>V{{version}} © 2021</span> REDVan Logistics. All rights reserved.</p>
+    <div class="text-center p-3 bg-secondary">
+        <p class="text-light">Made with &hearts; by Brilliant-Apps.Club</p>
+        <p class="text-light"><span>V{{version}} © 2021</span> REDVan Logistics. All rights reserved.</p>
     </div>
     <!-- Copyright -->
 </footer>

@@ -103,9 +103,7 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
                     this.loading = false;
                     this.saveClick.next();
                 },
-                error => {
-                    this.alertService.error(error);
-                });
+                error => this.alertService.error(error));
     }
 
     public ngOnInit(): void {
@@ -115,7 +113,6 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
     }
 
     public onSubmit(file): void {
-        // stop here if form is invalid
         if (this.packageForm.invalid) {
             return;
         }

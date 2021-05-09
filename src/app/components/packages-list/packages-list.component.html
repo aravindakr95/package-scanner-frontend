@@ -4,18 +4,18 @@
 </button> &nbsp;
 <button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()">
     <fa-icon [icon]="faTrash"></fa-icon>
-    Empty Package List
+    Empty Packages List
 </button>
 <br> &nbsp;
 <ng-data-table
         [id]="'packages_list'"
-        [title]="'Packages List'"
+        [title]="'Dispatching List'"
         [selectTrackBy]="'_id'"
         [showHeader]="true"
         [showColumnSelector]="true"
         [minContentWidth]="800"
         [minContentHeight]="200"
-        [limit]="10"
+        [limit]="15"
         [pageable]="true"
         [items]="packagesList"
         [rowSelectable]="true"
@@ -23,6 +23,7 @@
         [showRowSelectCheckbox]="true"
         [selectionColumnWidth]="10"
         [selectedRows]="selectedRows"
+        [showSubstituteRows]="true"
         (rowSelectChange)="onRowSelectChange($event)">
     <ng-data-table-column
             [field]="'barcode'"
@@ -34,8 +35,14 @@
             [field]="'lastScan'"
             [title]="'Assignee'"
             [filterable]="true"
+            [showDropdownFilter]="true"
             [sortable]="true"
             [width]="40">
+        <ng-template #ngDataTableCell let-row="row">
+            <td>
+                <fa-icon class="text-secondary" [icon]="faUser"></fa-icon> {{row.item.lastScan.toUpperCase()}}
+            </td>
+        </ng-template>
     </ng-data-table-column>
     <ng-data-table-column
             [field]="'seqNo'"
@@ -52,11 +59,11 @@
             [sortable]="true"
             [width]="40">
         <ng-template #ngDataTableCell let-row="row">
-            <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE" style="color: #ffffff;">
-                <span>{{ScanStatus.COMPLETE}}</span>
+            <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE">
+                <fa-icon class="text-success" [icon]="faCheck"></fa-icon> {{ScanStatus.COMPLETE.toUpperCase()}}
             </td>
-            <td *ngIf="row.item.scanStatus === ScanStatus.PENDING" style="color: #b41010;">
-                <span>{{ScanStatus.PENDING}}</span>
+            <td *ngIf="row.item.scanStatus === ScanStatus.PENDING">
+                <fa-icon class="text-warning" [icon]="faExclamation"></fa-icon> {{ScanStatus.PENDING.toUpperCase()}}
             </td>
         </ng-template>
     </ng-data-table-column>

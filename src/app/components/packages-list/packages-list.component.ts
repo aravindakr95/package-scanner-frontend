@@ -4,6 +4,9 @@ import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import { faExclamation } from "@fortawesome/free-solid-svg-icons/faExclamation";
+import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { Package, User } from '@/models';
@@ -21,6 +24,9 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public selectedRows: any[] = [];
     public faSave: IconDefinition = faSave;
     public faTrash: IconDefinition = faTrash
+    public faCheck: IconDefinition = faCheck;
+    public faExclamation: IconDefinition = faExclamation;
+    public faUser: IconDefinition = faUser;
     public loading: boolean = false;
 
     public ScanStatus = ScanStatus;
@@ -45,7 +51,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     private refreshPackagesList(): void {
         this.subscription = this.packageService.getAllPackages(this.currentUser.userId)
             .pipe(first()).subscribe((packages) => {
-                this.packagesList = packages.data
+                this.packagesList = packages.data;
                 this.updateSelectedRows();
             });
     }
@@ -73,11 +79,9 @@ export class PackagesListComponent implements OnInit, OnDestroy {
 
         const modalRef: BsModalRef = this.modalService.show(LogoutComponent, {ignoreBackdropClick: true});
         modalRef.content.title = 'Remove Packages';
-        modalRef.content.message = 'Are you sure you want to remove all packages data?';
+        modalRef.content.message = 'Are you sure you want to remove the all packages on list?';
         modalRef.content.confirmIcon = this.faTrash;
-        modalRef.content.saveClick.subscribe(() => {
-            this.removeAllPackages();
-        });
+        modalRef.content.saveClick.subscribe(() => this.removeAllPackages());
     }
 
     private removeAllPackages(): void {
@@ -86,10 +90,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                     this.alertService.primary('Package list removed successful', false);
                     this.refreshPackagesList();
-                },
-                error => {
-                    this.alertService.error(error);
-                });
+                }, error => this.alertService.error(error));
     }
 
     public onRowSelectChange(pkgIds: string[]): void {

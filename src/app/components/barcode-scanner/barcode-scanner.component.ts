@@ -4,7 +4,6 @@ import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BarcodeFormat } from "@zxing/library";
-// import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 import { User } from '@/models';
 
@@ -17,9 +16,6 @@ export class BarcodeScannerComponent implements OnDestroy {
     private getSubscription: Subscription;
     private putSubscription: Subscription;
 
-    // public faLightbulb = faLightbulb;
-    // public torchStatus: string = '0';
-    // public isTorchEnabled: boolean = false;
     public currentUser: User;
     public formatsEnabled: BarcodeFormat[] = [
         BarcodeFormat.CODE_128,
@@ -54,10 +50,6 @@ export class BarcodeScannerComponent implements OnDestroy {
                 }
             });
     }
-
-    // public toggleTorch(): void {
-    //     this.isTorchEnabled = !this.isTorchEnabled;
-    // }
 
     public ngOnDestroy(): void {
         if (this.getSubscription) {
