@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { DataFetchMode, DataTableComponent } from "ornamentum";
 import { parse } from 'json2csv';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
@@ -35,6 +36,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public ScanStatus = ScanStatus;
 
     private subscription: Subscription;
+    private dataTable: DataTableComponent;
 
     constructor(private modalService: BsModalService,
                 private authenticationService: AuthenticationService,
@@ -56,6 +58,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
             .pipe(first()).subscribe((packages) => {
                 this.packagesList = packages.data;
                 this.updateSelectedRows();
+                this.dataTable.fetchData(DataFetchMode.SOFT_RELOAD);
             });
     }
 
@@ -66,6 +69,10 @@ export class PackagesListComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.refreshPackagesList();
+    }
+
+    public onDataTableInit(dataTable: DataTableComponent): void {
+        this.dataTable = dataTable;
     }
 
     public openImportNewModal(): void {

@@ -1,22 +1,19 @@
-<div class="container">
+<div class="btn-group">
     <button type="button" class="btn btn-outline-primary btn-sm" (click)="openImportNewModal()">
         <fa-icon [icon]="faFileImport"></fa-icon>
-        Import CSV
-    </button> &nbsp;
+        Import
+    </button>
     <button type="button" class="btn btn-outline-info btn-sm" [disabled]="!packagesList.length"
             (click)="openExportModal()">
         <fa-icon [icon]="faFileExport"></fa-icon>
-        Export CSV
+        Export
     </button>
-</div>
-<br>
-<div class="container">
     <button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()">
         <fa-icon [icon]="faTrash"></fa-icon>
-        Empty Dispatch List
+        Empty
     </button>
 </div>
-<br>
+<br><br>
 <ng-data-table
         [id]="'packages_list'"
         [title]="'Dispatching List'"
@@ -34,6 +31,7 @@
         [selectionColumnWidth]="10"
         [selectedRows]="selectedRows"
         [showSubstituteRows]="true"
+        (init)="onDataTableInit($event)"
         (rowSelectChange)="onRowSelectChange($event)">
     <ng-data-table-column
             [field]="'barcode'"
@@ -86,8 +84,8 @@
             [filterable]="true"
             [width]="80">
     </ng-data-table-column>
-    <ng-template #ngDataTableNoRecords>
-        <h5>No packages detected, add CSV to appear here</h5>
-    </ng-template>
+<!--    <ng-template #ngDataTableNoRecords>-->
+<!--        <h5>No packages detected, add CSV to appear here</h5>-->
+<!--    </ng-template>-->
 </ng-data-table>
 
