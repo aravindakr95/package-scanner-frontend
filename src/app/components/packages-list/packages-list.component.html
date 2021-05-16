@@ -1,12 +1,22 @@
-<button type="button" class="btn btn-outline-primary btn-sm" (click)="openAddNewModal()">
-    <fa-icon [icon]="faSave"></fa-icon>
-    Add CSV
-</button> &nbsp;
-<button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()">
-    <fa-icon [icon]="faTrash"></fa-icon>
-    Empty Packages List
-</button>
-<br> &nbsp;
+<div class="container">
+    <button type="button" class="btn btn-outline-primary btn-sm" (click)="openImportNewModal()">
+        <fa-icon [icon]="faFileImport"></fa-icon>
+        Import CSV
+    </button> &nbsp;
+    <button type="button" class="btn btn-outline-info btn-sm" [disabled]="!packagesList.length"
+            (click)="openExportModal()">
+        <fa-icon [icon]="faFileExport"></fa-icon>
+        Export CSV
+    </button>
+</div>
+<br>
+<div class="container">
+    <button type="button" class="btn btn-outline-danger btn-sm" (click)="openRemoveModal()">
+        <fa-icon [icon]="faTrash"></fa-icon>
+        Empty Dispatch List
+    </button>
+</div>
+<br>
 <ng-data-table
         [id]="'packages_list'"
         [title]="'Dispatching List'"
@@ -40,7 +50,8 @@
             [width]="40">
         <ng-template #ngDataTableCell let-row="row">
             <td>
-                <fa-icon class="text-secondary" [icon]="faUser"></fa-icon> {{row.item.lastScan.toUpperCase()}}
+                <fa-icon class="text-secondary" [icon]="faUser"></fa-icon>
+                {{row.item.lastScan.toUpperCase()}}
             </td>
         </ng-template>
     </ng-data-table-column>
@@ -60,10 +71,12 @@
             [width]="40">
         <ng-template #ngDataTableCell let-row="row">
             <td *ngIf="row.item.scanStatus === ScanStatus.COMPLETE">
-                <fa-icon class="text-success" [icon]="faCheck"></fa-icon> {{ScanStatus.COMPLETE.toUpperCase()}}
+                <fa-icon class="text-success" [icon]="faCheck"></fa-icon>
+                {{ScanStatus.COMPLETE.toUpperCase()}}
             </td>
             <td *ngIf="row.item.scanStatus === ScanStatus.PENDING">
-                <fa-icon class="text-warning" [icon]="faExclamation"></fa-icon> {{ScanStatus.PENDING.toUpperCase()}}
+                <fa-icon class="text-warning" [icon]="faExclamation"></fa-icon>
+                {{ScanStatus.PENDING.toUpperCase()}}
             </td>
         </ng-template>
     </ng-data-table-column>

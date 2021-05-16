@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { parse } from 'json2csv';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
-import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
+import { faFileImport } from "@fortawesome/free-solid-svg-icons/faFileImport";
+import { faFileExport } from "@fortawesome/free-solid-svg-icons/faFileExport";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons/faExclamation";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
@@ -20,9 +22,10 @@ import { LogoutComponent, PackageUploadComponent } from "@/components";
 @Component({templateUrl: 'packages-list.component.html'})
 export class PackagesListComponent implements OnInit, OnDestroy {
     public currentUser: User;
-    public packagesList: Package[];
+    public packagesList: Package[] = [];
     public selectedRows: any[] = [];
-    public faSave: IconDefinition = faSave;
+    public faFileImport: IconDefinition = faFileImport;
+    public faFileExport: IconDefinition = faFileExport;
     public faTrash: IconDefinition = faTrash
     public faCheck: IconDefinition = faCheck;
     public faExclamation: IconDefinition = faExclamation;
@@ -65,13 +68,36 @@ export class PackagesListComponent implements OnInit, OnDestroy {
         this.refreshPackagesList();
     }
 
-    public openAddNewModal(): void {
+    public openImportNewModal(): void {
         this.loading = true;
 
         const modalRef: BsModalRef = this.modalService.show(PackageUploadComponent,
             {ignoreBackdropClick: true});
-        modalRef.content.faSave = this.faSave;
+        modalRef.content.faSave = this.faFileImport;
         modalRef.content.saveClick.subscribe(() => this.refreshPackagesList());
+    }
+
+    public openExportModal(): void {
+        this.loading = true;
+        this.refreshPackagesList();
+        const fields = [ 'barcode', 'lastScan', 'seqNo', 'scanStatus', 'nameAndAddress' ];
+        const opts = { fields };
+        try {
+            const csv = parse(this.packagesList, opts);
+
+            const anchorTag = document.createElement('a');
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = window.URL.createObjectURL(blob);
+
+            anchorTag.href = url;
+            anchorTag.download =
+                `${new Date().toLocaleDateString()}_sorted_list.csv`;
+            anchorTag.click();
+            window.URL.revokeObjectURL(url);
+            anchorTag.remove();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     public openRemoveModal(): void {
