@@ -31,22 +31,22 @@ export class BarcodeScannerComponent implements OnDestroy {
         this.currentUser = this.authenticationService.currentUserValue;
     }
 
-    private updatePackageStatus(barcode: string): void {
-        this.putSubscription = this.packageService.updateScanStatusByBarcode(this.currentUser.userId, barcode).subscribe();
+    private updatePackageStatus(orderId: string): void {
+        this.putSubscription = this.packageService.updateScanStatusByBarcode(this.currentUser.userId, orderId).subscribe();
     }
 
-    public onCodeResult(barcode: string): void {
-        this.getSubscription = this.packageService.getPackageByBarcode(this.currentUser.userId, barcode)
+    public onCodeResult(orderId: string): void {
+        this.getSubscription = this.packageService.getPackageByBarcode(this.currentUser.userId, orderId)
             .pipe(first())
             .subscribe((response) => {
-                let sequenceNo = response.data ? response.data.seqNo : 'N/A';
-                let lastScan = response.data ? response.data.lastScan : 'N/A';
+                let stopNo = response.data ? response.data.stopNumber : 'N/A';
+                let driver = response.data ? response.data.driver : 'N/A';
 
                 this.alertService
-                    .primary(`Barcode ID: ${barcode}, Assignee: ${lastScan}, Sequence No: ${sequenceNo}`);
+                    .primary(`Order ID: ${orderId}, Driver: ${driver}, Stop No: ${stopNo}`);
 
                 if (response.data && response.data.scanStatus === ScanStatus.PENDING) {
-                    this.updatePackageStatus(barcode);
+                    this.updatePackageStatus(orderId);
                 }
             });
     }

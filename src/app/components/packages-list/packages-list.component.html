@@ -33,14 +33,14 @@
         [showSubstituteRows]="true"
         (rowSelectChange)="onRowSelectChange($event)">
     <ng-data-table-column
-            [field]="'barcode'"
-            [title]="'Barcode'"
+            [field]="'orderId'"
+            [title]="'Order ID'"
             [filterable]="true"
             [width]="50">
     </ng-data-table-column>
     <ng-data-table-column
-            [field]="'lastScan'"
-            [title]="'Assignee'"
+            [field]="'driver'"
+            [title]="'Driver'"
             [filterable]="true"
             [showDropdownFilter]="true"
             [sortable]="true"
@@ -48,13 +48,13 @@
         <ng-template #ngDataTableCell let-row="row">
             <td>
                 <fa-icon class="text-secondary" [icon]="faUser"></fa-icon>
-                {{row.item.lastScan.toUpperCase()}}
+                {{row.item.driver.toUpperCase()}}
             </td>
         </ng-template>
     </ng-data-table-column>
     <ng-data-table-column
-            [field]="'seqNo'"
-            [title]="'Sequence No'"
+            [field]="'stopNumber'"
+            [title]="'Stop Number'"
             [filterable]="true"
             [sortable]="true"
             [width]="40">
@@ -78,8 +78,8 @@
         </ng-template>
     </ng-data-table-column>
     <ng-data-table-column
-            [field]="'nameAndAddress'"
-            [title]="'Name and Address'"
+            [field]="'address'"
+            [title]="'Address'"
             [filterable]="true"
             [width]="80">
     </ng-data-table-column>

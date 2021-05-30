@@ -42,7 +42,7 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
 
         const result: Package[] = [];
 
-        for (let i = 1; i < lines.length - 1; i++) {
+        for (let i = 1; i < lines.length; i++) {
             let obj: Package = {} as Package;
             let currentLine = lines[i].split(',');
 
@@ -51,13 +51,11 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
                 obj[header] = PackageUploadComponent.removeDuplicatedQuotes(currentLine[j]);
             }
 
+            obj['userId'] = this.currentUser.userId;
             result.push(obj);
         }
 
-        this.packages = result.map(pkg => {
-            pkg['userId'] = this.currentUser.userId;
-            return pkg;
-        });
+        this.packages = result;
     }
 
     private csvToText(file): Observable<boolean> {
@@ -76,20 +74,20 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
     private addPackages(): void {
         const emptyValueRepresentation = 'N/A';
         this.packages = this.packages.map((pkg: Package) => {
-            if (pkg.barcode === '') {
-                pkg.barcode = emptyValueRepresentation;
+            if (pkg.orderId === '') {
+                pkg.orderId = emptyValueRepresentation;
             }
 
-            if (pkg.lastScan === '') {
-                pkg.lastScan = emptyValueRepresentation;
+            if (pkg.driver === '') {
+                pkg.driver = emptyValueRepresentation;
             }
 
-            if (pkg.seqNo === '') {
-                pkg.seqNo = emptyValueRepresentation;
+            if (pkg.stopNumber === '') {
+                pkg.stopNumber = emptyValueRepresentation;
             }
 
-            if (pkg.nameAndAddress === '') {
-                pkg.nameAndAddress = emptyValueRepresentation;
+            if (pkg.address === '') {
+                pkg.address = emptyValueRepresentation;
             }
 
             return pkg;

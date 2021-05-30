@@ -80,7 +80,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public openExportModal(): void {
         this.loading = true;
         this.refreshPackagesList();
-        const fields = [ 'barcode', 'lastScan', 'seqNo', 'scanStatus', 'nameAndAddress' ];
+        const fields = [ 'orderId', 'driver', 'stopNumber', 'scanStatus', 'address' ];
         const opts = { fields };
         try {
             const csv = parse(this.packagesList, opts);

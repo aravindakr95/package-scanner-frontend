@@ -1,9 +1,9 @@
 export interface Package {
     _id?: string;
     userId?: string;
-    barcode?: string;
+    orderId?: string;
     scanStatus?: string;
-    lastScan?: string;
-    seqNo?: string;
-    nameAndAddress?: string
+    driver?: string;
+    stopNumber?: string;
+    address?: string
 }
