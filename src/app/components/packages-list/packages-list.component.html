@@ -20,7 +20,7 @@
         [selectTrackBy]="'_id'"
         [showHeader]="true"
         [showColumnSelector]="true"
-        [minContentWidth]="800"
+        [minContentWidth]="900"
         [minContentHeight]="200"
         [limit]="15"
         [pageable]="true"
@@ -31,12 +31,21 @@
         [selectionColumnWidth]="10"
         [selectedRows]="selectedRows"
         [showSubstituteRows]="true"
+        [persistTableState]="true"
         (rowSelectChange)="onRowSelectChange($event)">
     <ng-data-table-column
             [field]="'orderId'"
             [title]="'Order ID'"
             [filterable]="true"
             [width]="50">
+    </ng-data-table-column>
+    <ng-data-table-column
+            [field]="'routeDate'"
+            [title]="'Date'"
+            [filterable]="true"
+            [showDropdownFilter]="true"
+            [sortable]="true"
+            [width]="40">
     </ng-data-table-column>
     <ng-data-table-column
             [field]="'driver'"
