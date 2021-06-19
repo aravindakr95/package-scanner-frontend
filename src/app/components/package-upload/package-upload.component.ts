@@ -1,16 +1,18 @@
+import * as XLSX from 'xlsx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { camelCase } from 'lodash/string';
+import { mapKeys } from 'lodash';
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { Package, User } from '@/models';
 
 import { AlertService, AuthenticationService, PackageService } from '@/services';
 
-@Component({ templateUrl: 'package-upload.component.html' })
+@Component({templateUrl: 'package-upload.component.html'})
 export class PackageUploadComponent implements OnInit, OnDestroy {
     public packageForm: FormGroup;
     public packages: Package[];
@@ -21,7 +23,10 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
 
     public saveClick = new Subject();
     public loading: boolean = false;
-    public isFileLoaded: boolean = false;
+
+    private worksheet: any;
+    private storeData: any;
+    private fileUploaded: File;
 
     constructor(private formBuilder: FormBuilder,
                 private packageService: PackageService,
@@ -32,65 +37,29 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
         this.currentUser = this.authService.currentUserValue;
     }
 
-    private static removeDuplicatedQuotes(field) {
-        return field.replace(/['"]+/g, '')
-    }
-
-    private textToArray(textFields): void {
-        let lines = textFields.split('\n');
-        let headers = lines[0].split(',');
-
-        const result: Package[] = [];
-
-        for (let i = 1; i < lines.length; i++) {
-            let obj: Package = {} as Package;
-            let currentLine = lines[i].split(',');
-
-            for (let j = 0; j < headers.length; j++) {
-                const header = camelCase(headers[j]);
-                obj[header] = PackageUploadComponent.removeDuplicatedQuotes(currentLine[j]);
-            }
-
-            obj['userId'] = this.currentUser.userId;
-            result.push(obj);
-        }
-
-        this.packages = result;
-    }
-
-    private csvToText(file): Observable<boolean> {
-        return new Observable<boolean>(obs => {
-           const reader = new FileReader();
-            reader.readAsText(file.files[0]);
-            reader.onload = () => {
-                this.textToArray(reader.result);
-
-                obs.next(true);
-                obs.complete();
-            }
-        });
-    }
-
     private addPackages(): void {
         const emptyValueRepresentation = 'N/A';
         this.packages = this.packages.map((pkg: Package) => {
-            if (pkg.orderId === '') {
-                pkg.orderId = emptyValueRepresentation;
+            const convertedObj = mapKeys(pkg, (v, k) => camelCase(k));
+            convertedObj.userId= this.currentUser.userId;
+
+            if (convertedObj.orderId === '') {
+                convertedObj.orderId = emptyValueRepresentation;
             }
 
-            if (pkg.driver === '') {
-                pkg.driver = emptyValueRepresentation;
+            if (convertedObj.driver === '') {
+                convertedObj.driver = emptyValueRepresentation;
             }
 
-            if (pkg.stopNumber === '') {
-                pkg.stopNumber = emptyValueRepresentation;
+            if (convertedObj.stopNumber === '') {
+                convertedObj.stopNumber = emptyValueRepresentation;
             }
 
-            if (pkg.address === '') {
-                pkg.address = emptyValueRepresentation;
+            if (convertedObj.address === '') {
+                convertedObj.address = emptyValueRepresentation;
             }
 
-            return pkg;
+            return convertedObj;
         });
 
         this.subscription = this.packageService.addPackageCSV(this.packages)
@@ -110,20 +79,55 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onSubmit(file): void {
+    private readAsJson(): any {
+        return XLSX.utils.sheet_to_json(this.worksheet, {raw: false});
+    }
+
+    private readExcel(file): Observable<any> {
+        let readFile = new FileReader();
+        const ob = new Observable<boolean>(obs => {
+            readFile.onload = () => {
+                this.storeData = readFile.result;
+                const data = new Uint8Array(this.storeData);
+                const arr = [];
+                for (let i = 0; i != data.length; i += 1) arr[i] = String.fromCharCode(data[i]);
+                const bstr = arr.join("");
+                const workbook = XLSX.read(bstr, {type: 'binary'});
+                const firstSheetName = workbook.SheetNames[0];
+
+                this.worksheet = workbook.Sheets[firstSheetName];
+                this.packages = this.readAsJson();
+
+                obs.next(true);
+                obs.complete();
+            }
+        });
+
+        readFile.readAsArrayBuffer(file);
+        return ob;
+    }
+
+    public onLoad(event): void {
+        this.loading = true;
+
+        this.fileUploaded = event.target.files[0];
+
+        this.readExcel(event.target.files[0]).subscribe(status => {
+            if (status) {
+                this.loading = false;
+            }
+        });
+    }
+
+    public onSubmit(): void {
+        console.log(this.packages);
         if (this.packageForm.invalid) {
             return;
         }
 
         this.loading = true;
-
-        this.csvToText(file).subscribe(status => {
-            if (status) {
-                this.addPackages()
-            }
-        });
-
-        this.isFileLoaded = false;
+        this.addPackages();
+        this.loading = false;
     }
 
     public onCancelClick(): void {

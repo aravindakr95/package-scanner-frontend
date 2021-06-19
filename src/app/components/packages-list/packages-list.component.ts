@@ -111,10 +111,11 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     }
 
     private removeAllPackages(): void {
+        const packagesSize = this.packagesList.length;
         this.subscription = this.packageService.removePackages(this.currentUser.userId)
             .pipe(first())
             .subscribe(() => {
-                    this.alertService.primary('Package list removed successful', false);
+                    this.alertService.primary(`${packagesSize} Packages removed successful`, false);
                     this.refreshPackagesList();
                 }, error => this.alertService.error(error));
     }
