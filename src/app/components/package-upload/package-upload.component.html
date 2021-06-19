@@ -8,13 +8,13 @@
     <div class="modal-body">
         <form [formGroup]="packageForm">
             <div class="form-group">
-                <label for="csvFile" class="form-label">Select CSV File</label>
-                <input type="file" accept=".xls" formControlName="csvFile" class="form-control-file" (change)="onLoad($event)">
+                <label for="xlsFile" class="form-label">Select XLS File</label>
+                <input type="file" accept=".xls" formControlName="xlsFile" class="form-control-file" (change)="onLoad($event)">
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button [disabled]="loading" class="btn btn-primary btn-sm" (click)="onSubmit()">
+        <button [disabled]="loading || this.packageForm.invalid" class="btn btn-primary btn-sm" (click)="onSubmit()">
             <fa-icon [icon]="faSave"></fa-icon> Add
         </button>
         <a class="btn btn-link btn-sm" (click)="onCancelClick()">Cancel</a>

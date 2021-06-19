@@ -75,7 +75,7 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.packageForm = this.formBuilder.group({
-            csvFile: [null, Validators.required]
+            xlsFile: [null, Validators.required]
         });
     }
 
@@ -120,7 +120,6 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
     }
 
     public onSubmit(): void {
-        console.log(this.packages);
         if (this.packageForm.invalid) {
             return;
         }
