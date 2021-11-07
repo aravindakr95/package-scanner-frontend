@@ -5,7 +5,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { camelCase } from 'lodash/string';
-import { mapKeys } from 'lodash/mapKeys';
+import { mapKeys } from 'lodash';
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { Package, User } from '@/models';
