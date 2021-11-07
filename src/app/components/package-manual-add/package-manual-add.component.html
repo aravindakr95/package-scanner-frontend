@@ -1,0 +1,32 @@
+<div *ngIf="packageForm">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left"><fa-icon [icon]="faExclamationCircle"></fa-icon> Scanned Package Not Found</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="onCancelClick()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="packageForm">
+            <div class="form-group">
+                <p>The following <b>{{barcodeId}}</b> is not exists on the sorting list. Would you like to add it to today list by manually?</p>
+            </div>
+            <div class="form-group">
+                <label for="routeName" class="form-label">Route Name (Optional)</label>
+                <input type="text" formControlName="routeName" class="col-8 form-control form-control-sm">
+            </div>
+            <div class="form-group">
+                <label for="address" class="form-label">Address (Optional)</label>
+                <input type="text" formControlName="address" class="col-8 form-control form-control-sm">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button [disabled]="loading" class="btn btn-primary btn-sm" (click)="onSubmit()">
+            <fa-icon [icon]="faSave"></fa-icon> Add
+        </button>
+        <button [disabled]="loading" class="btn btn-warning btn-sm" (click)="onCancelClick()">
+            <fa-icon [icon]="faForward"></fa-icon> Skip
+        </button>
+    </div>
+</div>
+

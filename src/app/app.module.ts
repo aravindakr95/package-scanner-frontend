@@ -19,7 +19,8 @@ import {
     PackagesListComponent,
     BarcodeScannerComponent,
     PackageUploadComponent,
-    AlertComponent
+    AlertComponent,
+    PackageManualAddComponent
 } from '@/components';
 
 import { ErrorInterceptor, JwtInterceptor } from '@/helpers';
@@ -45,6 +46,7 @@ import { ErrorInterceptor, JwtInterceptor } from '@/helpers';
         PackagesListComponent,
         BarcodeScannerComponent,
         PackageUploadComponent,
+        PackageManualAddComponent,
         AlertComponent,
     ],
     providers: [
@@ -53,6 +55,7 @@ import { ErrorInterceptor, JwtInterceptor } from '@/helpers';
     ],
     entryComponents: [
         PackageUploadComponent,
+        PackageManualAddComponent,
         LogoutComponent
     ],
     bootstrap: [AppComponent]

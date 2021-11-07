@@ -2,19 +2,28 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BarcodeFormat } from "@zxing/library";
+import { faFileImport } from "@fortawesome/free-solid-svg-icons/faFileImport";
+import { faForward } from "@fortawesome/free-solid-svg-icons/faForward";
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { User } from '@/models';
 
 import { ScanStatus } from "@/enums";
 
 import { AlertService, AuthenticationService, PackageService } from '@/services';
+import { PackageManualAddComponent } from "@/components";
 
 @Component({ templateUrl: 'barcode-scanner.component.html' })
 export class BarcodeScannerComponent implements OnDestroy {
     private getSubscription: Subscription;
     private putSubscription: Subscription;
+
+    public faFileImport: IconDefinition = faFileImport;
+    public faForward: IconDefinition = faForward;
+
+    public loading: boolean = false;
 
     public currentUser: User;
     public formatsEnabled: BarcodeFormat[] = [
@@ -39,6 +48,10 @@ export class BarcodeScannerComponent implements OnDestroy {
         this.getSubscription = this.packageService.getPackageByBarcode(this.currentUser.userId, orderId)
             .pipe(first())
             .subscribe((response) => {
+                if (!response.data) {
+                    return this.openManualAddModal(orderId);
+                }
+
                 let stopNo = response.data ? response.data.stopNumber : 'N/A';
                 let driver = response.data ? response.data.driver : 'N/A';
 
@@ -49,6 +62,18 @@ export class BarcodeScannerComponent implements OnDestroy {
                     this.updatePackageStatus(orderId);
                 }
             });
+    }
+
+    public openManualAddModal(orderId: string): void {
+        this.loading = true;
+
+        const modalRef: BsModalRef = this.modalService.show(
+            PackageManualAddComponent,
+            {ignoreBackdropClick: true});
+        modalRef.content.barcodeId = orderId;
+        modalRef.content.faSave = this.faFileImport;
+        modalRef.content.faForward = this.faForward;
+        modalRef.content.saveClick.subscribe();
     }
 
     public ngOnDestroy(): void {

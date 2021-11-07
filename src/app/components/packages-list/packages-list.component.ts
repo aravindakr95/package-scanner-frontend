@@ -17,7 +17,7 @@ import { ScanStatus } from "@/enums";
 
 import { AlertService, AuthenticationService, PackageService } from '@/services';
 
-import { LogoutComponent, PackageUploadComponent } from "@/components";
+import { LogoutComponent, PackageManualAddComponent, PackageUploadComponent } from "@/components";
 
 @Component({templateUrl: 'packages-list.component.html'})
 export class PackagesListComponent implements OnInit, OnDestroy {
@@ -62,6 +62,16 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     private updatePackageStatus(packageId: string): void {
         this.subscription = this.packageService.updateScanStatusById(this.currentUser.userId, packageId)
             .subscribe(() => this.refreshPackagesList());
+    }
+
+    public openManualAddModal(): void {
+        this.loading = true;
+
+        const modalRef: BsModalRef = this.modalService.show(
+            PackageManualAddComponent,
+            {ignoreBackdropClick: true});
+        modalRef.content.faSave = this.faFileImport;
+        modalRef.content.saveClick.subscribe(() => this.refreshPackagesList());
     }
 
     public ngOnInit(): void {
