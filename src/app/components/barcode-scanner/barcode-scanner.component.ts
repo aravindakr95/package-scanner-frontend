@@ -23,6 +23,8 @@ export class BarcodeScannerComponent implements OnDestroy {
     public faFileImport: IconDefinition = faFileImport;
     public faForward: IconDefinition = faForward;
 
+    public showScanner = true;
+
     public loading: boolean = false;
 
     public currentUser: User;
@@ -65,6 +67,7 @@ export class BarcodeScannerComponent implements OnDestroy {
     }
 
     public openManualAddModal(orderId: string): void {
+        this.showScanner = false;
         this.loading = true;
 
         const modalRef: BsModalRef = this.modalService.show(
@@ -73,7 +76,8 @@ export class BarcodeScannerComponent implements OnDestroy {
         modalRef.content.barcodeId = orderId;
         modalRef.content.faSave = this.faFileImport;
         modalRef.content.faForward = this.faForward;
-        modalRef.content.saveClick.subscribe();
+        modalRef.content.saveClick.subscribe(() => this.showScanner = true);
+        modalRef.content.cancelClick.subscribe(() => this.showScanner = true);
     }
 
     public ngOnDestroy(): void {

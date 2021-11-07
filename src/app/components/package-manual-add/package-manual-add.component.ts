@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subject, Subscription} from 'rxjs';
+import {first} from "rxjs/operators";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import {BsModalRef} from "ngx-bootstrap/modal";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons/faExclamationCircle";
@@ -8,7 +9,8 @@ import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons/faExclama
 import { Package, User } from '@/models';
 
 import {AlertService, AuthenticationService, PackageService} from '@/services';
-import {first} from "rxjs/operators";
+
+import { ScanStatus } from "@/enums";
 
 @Component({templateUrl: 'package-manual-add.component.html'})
 export class PackageManualAddComponent implements OnInit, OnDestroy {
@@ -25,6 +27,7 @@ export class PackageManualAddComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     public saveClick = new Subject();
+    public cancelClick = new Subject();
     public loading: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
@@ -44,7 +47,7 @@ export class PackageManualAddComponent implements OnInit, OnDestroy {
     }
 
     // convenience getter for easy access to form fields
-    get f() {
+    get getFormControls() {
         return this.packageForm.controls;
     }
 
@@ -62,11 +65,14 @@ export class PackageManualAddComponent implements OnInit, OnDestroy {
         const pkg: Package[] = [
             {
                 userId: this.currentUser.userId,
-                address: this.f.address.value ? this.f.address.value : 'N/A',
-                driver: this.f.routeName.value ? this.f.routeName.value : 'N/A',
+                address: this.getFormControls.address.value
+                    ? this.getFormControls.address.value : 'N/A',
+                driver: this.getFormControls.routeName.value
+                    ? this.getFormControls.routeName.value : 'N/A',
                 routeDate: new Date().toLocaleDateString(),
                 stopNumber: 'N/A',
-                orderId: this.barcodeId
+                orderId: this.barcodeId,
+                scanStatus: ScanStatus.COMPLETE
             }
         ]
 
@@ -82,6 +88,7 @@ export class PackageManualAddComponent implements OnInit, OnDestroy {
     }
 
     public onCancelClick(): void {
+        this.cancelClick.next();
         this.modalRef.hide();
     }
 

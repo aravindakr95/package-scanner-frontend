@@ -5,6 +5,7 @@
 <!--</button>-->
 <!--<br> &nbsp;-->
 <zxing-scanner
+        *ngIf="showScanner"
         [formats]="formatsEnabled"
         [autostart]="true"
         (scanSuccess)="onCodeResult($event)">
