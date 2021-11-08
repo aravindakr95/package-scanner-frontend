@@ -8,5 +8,6 @@
         *ngIf="showScanner"
         [formats]="formatsEnabled"
         [autostart]="true"
+        [timeBetweenScans]="1000"
         (scanSuccess)="onCodeResult($event)">
 </zxing-scanner>

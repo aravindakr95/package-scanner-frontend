@@ -43,11 +43,13 @@ export class BarcodeScannerComponent implements OnDestroy {
     }
 
     private updatePackageStatus(orderId: string): void {
-        this.putSubscription = this.packageService.updateScanStatusByBarcode(this.currentUser.userId, orderId).subscribe();
+        this.putSubscription = this.packageService
+            .updateScanStatusByBarcode(this.currentUser.userId, orderId).subscribe();
     }
 
     public onCodeResult(orderId: string): void {
-        this.getSubscription = this.packageService.getPackageByBarcode(this.currentUser.userId, orderId)
+        this.getSubscription = this.packageService
+            .getPackageByBarcode(this.currentUser.userId, orderId)
             .pipe(first())
             .subscribe((response) => {
                 if (!response.data) {
