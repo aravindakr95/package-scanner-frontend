@@ -23,9 +23,7 @@ export class BarcodeScannerComponent implements OnDestroy {
     public faFileImport: IconDefinition = faFileImport;
     public faForward: IconDefinition = faForward;
 
-    public showScanner = true;
-
-    public loading: boolean = false;
+    public isModalOpen = false;
 
     public currentUser: User;
     public formatsEnabled: BarcodeFormat[] = [
@@ -40,6 +38,9 @@ export class BarcodeScannerComponent implements OnDestroy {
                 private alertService: AlertService,
                 private packageService: PackageService) {
         this.currentUser = this.authenticationService.currentUserValue;
+
+        this.modalService.onHidden.subscribe(() => this.isModalOpen = false);
+        this.modalService.onShown.subscribe(() => this.isModalOpen = true);
     }
 
     private updatePackageStatus(orderId: string): void {
@@ -52,7 +53,7 @@ export class BarcodeScannerComponent implements OnDestroy {
             .getPackageByBarcode(this.currentUser.userId, orderId)
             .pipe(first())
             .subscribe((response) => {
-                if (!response.data) {
+                if (!response.data && !this.isModalOpen) {
                     return this.openManualAddModal(orderId);
                 }
 
@@ -69,17 +70,13 @@ export class BarcodeScannerComponent implements OnDestroy {
     }
 
     public openManualAddModal(orderId: string): void {
-        this.showScanner = false;
-        this.loading = true;
-
         const modalRef: BsModalRef = this.modalService.show(
             PackageManualAddComponent,
             {ignoreBackdropClick: true});
+
         modalRef.content.barcodeId = orderId;
         modalRef.content.faSave = this.faFileImport;
         modalRef.content.faForward = this.faForward;
-        modalRef.content.saveClick.subscribe(() => this.showScanner = true);
-        modalRef.content.cancelClick.subscribe(() => this.showScanner = true);
     }
 
     public ngOnDestroy(): void {
