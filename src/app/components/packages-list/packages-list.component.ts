@@ -8,7 +8,7 @@ import { faFileImport } from "@fortawesome/free-solid-svg-icons/faFileImport";
 import { faFileExport } from "@fortawesome/free-solid-svg-icons/faFileExport";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons/faExclamation";
-import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons/faMapMarkerAlt";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 import { Package, User } from '@/models';
@@ -29,7 +29,7 @@ export class PackagesListComponent implements OnInit, OnDestroy {
     public faTrash: IconDefinition = faTrash
     public faCheck: IconDefinition = faCheck;
     public faExclamation: IconDefinition = faExclamation;
-    public faUser: IconDefinition = faUser;
+    public faMapMarkerAlt: IconDefinition = faMapMarkerAlt;
     public loading: boolean = false;
 
     public ScanStatus = ScanStatus;

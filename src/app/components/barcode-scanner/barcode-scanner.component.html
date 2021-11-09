@@ -8,5 +8,7 @@
         [formats]="formatsEnabled"
         [autostart]="true"
         [timeBetweenScans]="1000"
+        [torch]="true"
+        [tryHarder]="true"
         (scanSuccess)="onCodeResult($event)">
 </zxing-scanner>

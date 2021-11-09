@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {Subject, Subscription} from 'rxjs';
-import {first} from "rxjs/operators";
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subscription} from 'rxjs';
+import { first } from "rxjs/operators";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
-import {BsModalRef} from "ngx-bootstrap/modal";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons/faExclamationCircle";
+import { BsModalRef } from "ngx-bootstrap/modal";
 
 import { Package, User } from '@/models';
 
@@ -26,8 +26,6 @@ export class PackageManualAddComponent implements OnInit, OnDestroy {
     private currentUser: User;
     private subscription: Subscription;
 
-    public saveClick = new Subject();
-    public cancelClick = new Subject();
     public loading: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
@@ -82,13 +80,11 @@ export class PackageManualAddComponent implements OnInit, OnDestroy {
                     this.modalRef.hide();
                     this.alertService.success(`${this.barcodeId} package added successful`, false);
                     this.loading = false;
-                    this.saveClick.next();
                 },
                 error => this.alertService.error(error));
     }
 
     public onCancelClick(): void {
-        this.cancelClick.next();
         this.modalRef.hide();
     }
 

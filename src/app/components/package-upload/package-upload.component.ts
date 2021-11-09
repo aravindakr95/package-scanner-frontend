@@ -64,6 +64,14 @@ export class PackageUploadComponent implements OnInit, OnDestroy {
                 convertedObj.routeDate = emptyValueRepresentation;
             }
 
+            if (convertedObj.longitude === '') {
+                convertedObj.longitude = emptyValueRepresentation;
+            }
+
+            if (convertedObj.latitude === '') {
+                convertedObj.latitude = emptyValueRepresentation;
+            }
+
             return convertedObj;
         });
 

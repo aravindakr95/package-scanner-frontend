@@ -53,10 +53,10 @@
             [filterable]="true"
             [showDropdownFilter]="true"
             [sortable]="true"
-            [width]="40">
+            [width]="50">
         <ng-template #ngDataTableCell let-row="row">
             <td>
-                <fa-icon class="text-secondary" [icon]="faUser"></fa-icon>
+                <fa-icon class="text-secondary" [icon]="faMapMarkerAlt"></fa-icon>
                 {{row.item.driver.toUpperCase()}}
             </td>
         </ng-template>

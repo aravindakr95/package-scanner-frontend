@@ -61,7 +61,7 @@ export class BarcodeScannerComponent implements OnDestroy {
                 let driver = response.data ? response.data.driver : 'N/A';
 
                 this.alertService
-                    .primary(`Order ID: ${orderId}, Driver: ${driver}, Stop No: ${stopNo}`);
+                    .primary(`Order ID: ${orderId}, Route: ${driver}, Stop No: ${stopNo}`);
 
                 if (response.data && response.data.scanStatus === ScanStatus.PENDING) {
                     this.updatePackageStatus(orderId);

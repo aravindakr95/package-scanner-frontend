@@ -6,5 +6,7 @@ export interface Package {
     scanStatus?: string;
     driver?: string;
     stopNumber?: string;
-    address?: string
+    address?: string;
+    longitude?: string;
+    latitude?: string;
 }
